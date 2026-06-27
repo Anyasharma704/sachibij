@@ -166,7 +166,6 @@
       overflow: hidden;
     }
 
-    /* Subtle texture lines */
     .hero-right::before {
       content: '';
       position: absolute;
@@ -213,7 +212,6 @@
       margin-bottom: 1rem;
     }
 
-    /* Barcode */
     .barcode-wrap {
       display: flex;
       gap: 1.5px;
@@ -236,7 +234,6 @@
       margin-bottom: 1rem;
     }
 
-    /* scan line animation */
     .scan-line {
       position: absolute;
       left: 0; right: 0;
@@ -269,7 +266,6 @@
 
     .check { font-size: 0.9rem; }
 
-    /* label below packet */
     .scan-caption {
       margin-top: 1.5rem;
       font-size: 0.7rem;
@@ -480,13 +476,7 @@
         Every year, lakhs of Indian farmers plant counterfeit seeds and lose entire harvests before they realize it. SachiBij gives you the truth in one scan — before you spend a rupee.
       </p>
     </div>
-    {% comment %} <div class="hero-actions">
-      <a href="#how" class="btn btn-dark">See How It Works</a>
-      <a href="#" class="btn btn-ghost">Follow Progress</a>
-    </div>
-  </div> {% endcomment %}
-
-  <div class="hero-actions" style="flex-direction:column; align-items:flex-start; gap:1rem;">
+    <div class="hero-actions" style="flex-direction:column; align-items:flex-start; gap:1rem;">
       <form method="GET" action="/" style="display:flex; gap:0.5rem; width:100%;">
         <input type="text" name="barcode" placeholder="Enter barcode e.g. BAR001"
           style="flex:1; padding:0.75rem 1rem; font-size:0.9rem; font-family:'Space Grotesk',sans-serif;
@@ -510,6 +500,8 @@
         <a href="#" class="btn btn-ghost" style="font-size:0.82rem; padding:0.6rem 1.2rem;">Follow Progress</a>
       </div>
     </div>
+  </div>
+
   <div class="hero-right">
     <div class="packet">
       <div class="scan-line"></div>
