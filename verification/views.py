@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from verification.models import Product
+from django.utils import timezone
 
 def home(request):
     result = None
@@ -8,13 +9,18 @@ def home(request):
         barcode = request.GET.get('barcode')
         try:
             product = Product.objects.get(barcode=barcode)
-            if product.company.is_verified:
-                result = "✅ GENUINE — " + product.name + " by " + product.company.name
-                result_type = "genuine"
+            if not product.company.is_verified:
+                result = "❌ Nakli — Company verified nahi hai!"
+                result_type = "notfound"
             else:
-                result = "⚠️ WARNING — Company not verified!"
-                result_type = "warning"
+                batch = product.batch_set.order_by('-manufacturing_date').first()
+                if batch and batch.expiry_date < timezone.now().date():
+                    result = "⚠️ Expired — Yeh batch expire ho chuka hai!"
+                    result_type = "warning"
+                else:
+                    result = "✅ Asli — " + product.name + " by " + product.company.name
+                    result_type = "genuine"
         except Product.DoesNotExist:
-            result = "❌ NOT FOUND — Barcode not in our database"
+            result = "❌ Nakli — Barcode hamare database mein nahi hai"
             result_type = "notfound"
     return render(request, 'verification/index.html', {'result': result, 'result_type': result_type})
