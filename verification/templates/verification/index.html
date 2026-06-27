@@ -509,7 +509,8 @@
       </p>
     </div>
     <div class="hero-actions" style="flex-direction:column; align-items:flex-start; gap:1rem;">
-      <form method="GET" action="/" style="display:flex; gap:0.5rem; width:100%;">
+     <form method="GET" action="/" style="display:flex; gap:0.5rem; width:100%;">
+  <input type="hidden" name="lang" id="lang-input" value="hl">
         <input type="text" name="barcode" id="txt-input" placeholder="Enter barcode e.g. BAR001"
           style="flex:1; padding:0.75rem 1rem; font-size:0.9rem; font-family:'Space Grotesk',sans-serif;
           border:2px solid var(--ink); border-radius:4px; background:var(--page); color:var(--ink);">
@@ -734,6 +735,7 @@ function setLang(lang) {
 
   document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active-lang'));
   document.getElementById('btn-' + lang).classList.add('active-lang');
+  document.getElementById('lang-input').value = lang;
 }
 
 // Set Hinglish as default on load
