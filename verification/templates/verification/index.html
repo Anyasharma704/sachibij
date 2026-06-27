@@ -462,6 +462,23 @@
 .result-genuine { border: 2px solid var(--green); color: var(--green); background: rgba(58,107,53,0.08); }
 .result-warning { border: 2px solid #b87d1f; color: #b87d1f; background: rgba(184,125,31,0.08); }
 .result-danger { border: 2px solid var(--danger); color: var(--danger); background: rgba(184,60,31,0.08); }
+
+.lang-btn {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 0.25rem 0.6rem;
+  border: 1.5px solid var(--bark);
+  border-radius: 3px;
+  background: transparent;
+  color: var(--bark);
+  cursor: pointer;
+}
+.active-lang {
+  background: var(--ink);
+  color: var(--page);
+  border-color: var(--ink);
+}
   </style>
 </head>
 <body>
@@ -469,18 +486,23 @@
 <!-- NAV -->
 <nav>
   <div class="logo">Sachi<em>Bij</em></div>
+<div style="display:flex; gap:0.5rem; align-items:center;">
+  <button onclick="setLang('en')" id="btn-en" class="lang-btn active-lang">EN</button>
+  <button onclick="setLang('hi')" id="btn-hi" class="lang-btn">हिं</button>
+  <button onclick="setLang('hl')" id="btn-hl" class="lang-btn">Hinglish</button>
   <span class="nav-tag">V1 in Progress</span>
+</div>
 </nav>
 
 <!-- HERO -->
 <section class="hero">
   <div class="hero-left">
     <div>
-      <p class="eyebrow">For Indian Farmers · Made in Greater Noida</p>
+      <p class="eyebrow" id="txt-eyebrow">For Indian Farmers · Made in Greater Noida</p>
       <h1>
-        Real seed<br/>
-        or <span class="bad">fake</span>?<br/>
-        <em>Know before<br/>you sow.</em>
+<span id="txt-h1-1">Real seed</span><br/>
+<span id="txt-or">or</span> <span class="bad" id="txt-h1-2">fake</span>?<br/>
+<em id="txt-h1-3">Know before<br/>you sow.</em>
       </h1>
       <p class="hero-desc">
         Every year, lakhs of Indian farmers plant counterfeit seeds and lose entire harvests before they realize it. SachiBij gives you the truth in one scan — before you spend a rupee.
@@ -488,10 +510,10 @@
     </div>
     <div class="hero-actions" style="flex-direction:column; align-items:flex-start; gap:1rem;">
       <form method="GET" action="/" style="display:flex; gap:0.5rem; width:100%;">
-        <input type="text" name="barcode" placeholder="Enter barcode e.g. BAR001"
+        <input type="text" name="barcode" id="txt-input" placeholder="Enter barcode e.g. BAR001"
           style="flex:1; padding:0.75rem 1rem; font-size:0.9rem; font-family:'Space Grotesk',sans-serif;
           border:2px solid var(--ink); border-radius:4px; background:var(--page); color:var(--ink);">
-        <button type="submit" class="btn btn-dark">Verify</button>
+        <button type="submit" class="btn btn-dark" id="txt-verify">Verify</button>
       </form>
 {% if result %}
 <div class="result-box {% if result_type == 'genuine' %}result-genuine{% elif result_type == 'warning' %}result-warning{% else %}result-danger{% endif %}">
@@ -664,6 +686,58 @@
     });
   };
 }
+const langs = {
+  en: {
+    eyebrow: "For Indian Farmers · Made in Greater Noida",
+    h1_1: "Real seed",
+    or: "or",
+    h1_2: "fake",
+    h1_3: "Know before<br/>you sow.",
+    input: "Enter barcode e.g. BAR001",
+    verify: "Verify",
+    scan: "📷 Scan",
+    upload: "🖼️ Upload Image"
+  },
+  hi: {
+    eyebrow: "भारतीय किसानों के लिए · ग्रेटर नोएडा से",
+    h1_1: "असली बीज",
+    or: "या",
+    h1_2: "नकली",
+    h1_3: "खरीदने से<br/>पहले जानो।",
+    input: "संख्या यहाँ डालें",
+    verify: "जाँचो",
+    scan: "📷 कैमरे से देखो",
+    upload: "🖼️ छवि चुनो"
+  },
+  hl: {
+    eyebrow: "Indian Kisanon ke liye · Greater Noida se",
+    h1_1: "Asli beej",
+    or: "ya",
+    h1_2: "Nakli",
+    h1_3: "Kharidne se<br/>pehle jaano.",
+    input: "Barcode yahan daalo",
+    verify: "Check Karo",
+    scan: "📷 Scan Karo",
+    upload: "🖼️ Image Upload"
+  }
+};
+
+function setLang(lang) {
+  const l = langs[lang];
+  document.getElementById('txt-eyebrow').innerText = l.eyebrow;
+  document.getElementById('txt-h1-1').innerText = l.h1_1;
+  document.getElementById('txt-or').innerText = l.or;
+  document.getElementById('txt-h1-2').innerText = l.h1_2;
+  document.getElementById('txt-h1-3').innerHTML = l.h1_3;
+  document.getElementById('txt-input').placeholder = l.input;
+  document.getElementById('txt-verify').innerText = l.verify;
+
+  document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active-lang'));
+  document.getElementById('btn-' + lang).classList.add('active-lang');
+}
+
+// Set Hinglish as default on load
+setLang('hl');
 </script>
 
 </body>
