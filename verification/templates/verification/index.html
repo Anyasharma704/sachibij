@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SachiBij</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --soil:   #1c1008;
+      --mud:    #2e1f0f;
+      --bark:   #5c3d1e;
+      --straw:  #c9a96e;
+      --wheat:  #e8d5a3;
+      --page:   #f0e8d5;
+      --green:  #3a6b35;
+      --leaf:   #5a9e52;
+      --danger: #b83c1f;
+      --ink:    #1a1208;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--page);
+      color: var(--ink);
+      font-family: 'Space Grotesk', sans-serif;
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ── */
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.1rem 2rem;
+      border-bottom: 2px solid var(--ink);
+    }
+
+    .logo {
+      font-family: 'Instrument Serif', serif;
+      font-size: 1.6rem;
+      color: var(--ink);
+      letter-spacing: -0.5px;
+    }
+
+    .logo em {
+      font-style: italic;
+      color: var(--green);
+    }
+
+    .nav-tag {
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--bark);
+      border: 1.5px solid var(--bark);
+      padding: 0.25rem 0.7rem;
+      border-radius: 3px;
+    }
+
+    /* ── HERO ── */
+    .hero {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      min-height: 88vh;
+      border-bottom: 2px solid var(--ink);
+    }
+
+    .hero-left {
+      padding: 4rem 3rem 3rem 2.5rem;
+      border-right: 2px solid var(--ink);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .eyebrow {
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--bark);
+      margin-bottom: 1.5rem;
+    }
+
+    h1 {
+      font-family: 'Instrument Serif', serif;
+      font-size: clamp(3rem, 6vw, 5.2rem);
+      line-height: 1.0;
+      letter-spacing: -1.5px;
+      color: var(--ink);
+      margin-bottom: 2rem;
+    }
+
+    h1 em {
+      font-style: italic;
+      color: var(--green);
+    }
+
+    h1 .bad {
+      color: var(--danger);
+      font-style: italic;
+    }
+
+    .hero-desc {
+      font-size: 1rem;
+      line-height: 1.75;
+      color: var(--bark);
+      max-width: 380px;
+      margin-bottom: 2.5rem;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 0.75rem;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 600;
+      padding: 0.75rem 1.6rem;
+      border-radius: 4px;
+      cursor: pointer;
+      border: 2px solid var(--ink);
+      transition: background 0.15s, color 0.15s;
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    .btn-dark {
+      background: var(--ink);
+      color: var(--page);
+    }
+
+    .btn-dark:hover {
+      background: var(--green);
+      border-color: var(--green);
+    }
+
+    .btn-ghost {
+      background: transparent;
+      color: var(--ink);
+    }
+
+    .btn-ghost:hover {
+      background: var(--ink);
+      color: var(--page);
+    }
+
+    /* ── HERO RIGHT: SCAN VISUAL ── */
+    .hero-right {
+      background: var(--mud);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 3rem 2rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Subtle texture lines */
+    .hero-right::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 28px,
+        rgba(255,255,255,0.03) 28px,
+        rgba(255,255,255,0.03) 29px
+      );
+    }
+
+    .packet {
+      position: relative;
+      background: var(--page);
+      border: 3px solid var(--ink);
+      border-radius: 8px;
+      width: 220px;
+      padding: 1.2rem 1rem;
+      text-align: center;
+      z-index: 1;
+    }
+
+    .packet-brand {
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--bark);
+      margin-bottom: 0.3rem;
+    }
+
+    .packet-name {
+      font-family: 'Instrument Serif', serif;
+      font-size: 1.2rem;
+      color: var(--ink);
+      margin-bottom: 0.2rem;
+    }
+
+    .packet-sub {
+      font-size: 0.7rem;
+      color: var(--bark);
+      margin-bottom: 1rem;
+    }
+
+    /* Barcode */
+    .barcode-wrap {
+      display: flex;
+      gap: 1.5px;
+      align-items: flex-end;
+      height: 52px;
+      justify-content: center;
+      margin-bottom: 0.4rem;
+      padding: 0 0.5rem;
+    }
+
+    .barcode-wrap div {
+      background: var(--ink);
+      border-radius: 0.5px;
+    }
+
+    .barcode-num {
+      font-size: 0.6rem;
+      letter-spacing: 0.08em;
+      color: var(--bark);
+      margin-bottom: 1rem;
+    }
+
+    /* scan line animation */
+    .scan-line {
+      position: absolute;
+      left: 0; right: 0;
+      height: 2px;
+      background: var(--leaf);
+      opacity: 0.8;
+      animation: scan 2s ease-in-out infinite;
+      top: 20%;
+    }
+
+    @keyframes scan {
+      0%   { top: 20%; opacity: 0; }
+      10%  { opacity: 0.8; }
+      90%  { opacity: 0.8; }
+      100% { top: 80%; opacity: 0; }
+    }
+
+    .result-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.8rem;
+      font-weight: 700;
+      padding: 0.35rem 0.9rem;
+      border-radius: 100px;
+      border: 2px solid var(--green);
+      color: var(--green);
+      background: rgba(58,107,53,0.1);
+    }
+
+    .check { font-size: 0.9rem; }
+
+    /* label below packet */
+    .scan-caption {
+      margin-top: 1.5rem;
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--straw);
+      z-index: 1;
+    }
+
+    /* ── TICKER STRIP ── */
+    .ticker {
+      background: var(--green);
+      color: var(--page);
+      padding: 0.55rem 0;
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      overflow: hidden;
+      white-space: nowrap;
+      border-bottom: 2px solid var(--ink);
+    }
+
+    .ticker-inner {
+      display: inline-block;
+      animation: ticker 18s linear infinite;
+    }
+
+    @keyframes ticker {
+      0%   { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    /* ── PROBLEM ── */
+    .problem {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      border-bottom: 2px solid var(--ink);
+    }
+
+    .prob-cell {
+      padding: 2.5rem 2rem;
+      border-right: 2px solid var(--ink);
+    }
+
+    .prob-cell:last-child { border-right: none; }
+
+    .prob-num {
+      font-family: 'Instrument Serif', serif;
+      font-size: 3.2rem;
+      color: var(--danger);
+      line-height: 1;
+      margin-bottom: 0.5rem;
+    }
+
+    .prob-label {
+      font-size: 0.78rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--bark);
+      margin-bottom: 0.5rem;
+    }
+
+    .prob-desc {
+      font-size: 0.88rem;
+      color: var(--bark);
+      line-height: 1.65;
+    }
+
+    /* ── HOW ── */
+    .how {
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      border-bottom: 2px solid var(--ink);
+    }
+
+    .how-left {
+      padding: 3rem 2rem;
+      border-right: 2px solid var(--ink);
+      background: var(--soil);
+      color: var(--page);
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+    }
+
+    .how-left h2 {
+      font-family: 'Instrument Serif', serif;
+      font-size: 2.4rem;
+      line-height: 1.1;
+      letter-spacing: -0.5px;
+    }
+
+    .how-left h2 em { color: var(--straw); font-style: italic; }
+
+    .how-right {
+      display: grid;
+      grid-template-rows: 1fr 1fr 1fr;
+    }
+
+    .how-step {
+      display: grid;
+      grid-template-columns: 56px 1fr;
+      align-items: start;
+      padding: 1.8rem 2rem;
+      border-bottom: 1.5px solid var(--ink);
+      gap: 1.2rem;
+    }
+
+    .how-step:last-child { border-bottom: none; }
+
+    .step-num {
+      font-family: 'Instrument Serif', serif;
+      font-size: 2rem;
+      color: var(--straw);
+      line-height: 1;
+      padding-top: 0.15rem;
+    }
+
+    .step-body h3 {
+      font-size: 0.95rem;
+      font-weight: 700;
+      margin-bottom: 0.35rem;
+      color: var(--ink);
+    }
+
+    .step-body p {
+      font-size: 0.85rem;
+      color: var(--bark);
+      line-height: 1.65;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.5rem 2rem;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .footer-logo {
+      font-family: 'Instrument Serif', serif;
+      font-size: 1.2rem;
+      color: var(--ink);
+    }
+
+    .footer-logo em { font-style: italic; color: var(--green); }
+
+    .footer-info {
+      font-size: 0.78rem;
+      color: var(--bark);
+      text-align: right;
+    }
+
+    .v1-tag {
+      display: inline-block;
+      background: var(--danger);
+      color: #fff;
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 0.2rem 0.55rem;
+      border-radius: 3px;
+      margin-left: 0.4rem;
+      vertical-align: middle;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 700px) {
+      .hero { grid-template-columns: 1fr; }
+      .hero-left { padding: 2.5rem 1.5rem; border-right: none; border-bottom: 2px solid var(--ink); }
+      .hero-right { min-height: 320px; }
+      .problem { grid-template-columns: 1fr; }
+      .prob-cell { border-right: none; border-bottom: 2px solid var(--ink); }
+      .prob-cell:last-child { border-bottom: none; }
+      .how { grid-template-columns: 1fr; }
+      .how-left { border-right: none; border-bottom: 2px solid var(--ink); }
+      nav { padding: 1rem 1.2rem; }
+      footer { flex-direction: column; align-items: flex-start; }
+      .footer-info { text-align: left; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="logo">Sachi<em>Bij</em></div>
+  <span class="nav-tag">V1 in Progress</span>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-left">
+    <div>
+      <p class="eyebrow">For Indian Farmers · Made in Greater Noida</p>
+      <h1>
+        Real seed<br/>
+        or <span class="bad">fake</span>?<br/>
+        <em>Know before<br/>you sow.</em>
+      </h1>
+      <p class="hero-desc">
+        Every year, lakhs of Indian farmers plant counterfeit seeds and lose entire harvests before they realize it. SachiBij gives you the truth in one scan — before you spend a rupee.
+      </p>
+    </div>
+    {% comment %} <div class="hero-actions">
+      <a href="#how" class="btn btn-dark">See How It Works</a>
+      <a href="#" class="btn btn-ghost">Follow Progress</a>
+    </div>
+  </div> {% endcomment %}
+
+  <div class="hero-actions" style="flex-direction:column; align-items:flex-start; gap:1rem;">
+      <form method="GET" action="/" style="display:flex; gap:0.5rem; width:100%;">
+        <input type="text" name="barcode" placeholder="Enter barcode e.g. BAR001"
+          style="flex:1; padding:0.75rem 1rem; font-size:0.9rem; font-family:'Space Grotesk',sans-serif;
+          border:2px solid var(--ink); border-radius:4px; background:var(--page); color:var(--ink);">
+        <button type="submit" class="btn btn-dark">Verify</button>
+      </form>
+      {% if result %}
+      <div style="
+        margin-top: 0.5rem;
+        padding: 0.75rem 1.2rem;
+        border-radius: 4px;
+        font-weight: 700;
+        font-size: 0.95rem;
+        border: 2px solid {% if result_type == 'genuine' %}var(--green){% else %}var(--danger){% endif %};
+        color: {% if result_type == 'genuine' %}var(--green){% else %}var(--danger){% endif %};
+        background: {% if result_type == 'genuine' %}rgba(58,107,53,0.08){% else %}rgba(184,60,31,0.08){% endif %};
+      ">{{ result }}</div>
+      {% endif %}
+      <div style="display:flex; gap:0.75rem;">
+        <a href="#how" class="btn btn-ghost" style="font-size:0.82rem; padding:0.6rem 1.2rem;">See How It Works</a>
+        <a href="#" class="btn btn-ghost" style="font-size:0.82rem; padding:0.6rem 1.2rem;">Follow Progress</a>
+      </div>
+    </div>
+  <div class="hero-right">
+    <div class="packet">
+      <div class="scan-line"></div>
+      <div class="packet-brand">AgriSeed Co.</div>
+      <div class="packet-name">Hybrid Tomato</div>
+      <div class="packet-sub">50g · Batch TM-2024-881</div>
+      <div class="barcode-wrap">
+        <div style="width:3px;height:100%"></div>
+        <div style="width:1px;height:70%"></div>
+        <div style="width:4px;height:100%"></div>
+        <div style="width:1px;height:55%"></div>
+        <div style="width:2px;height:100%"></div>
+        <div style="width:3px;height:80%"></div>
+        <div style="width:1px;height:100%"></div>
+        <div style="width:2px;height:65%"></div>
+        <div style="width:4px;height:100%"></div>
+        <div style="width:1px;height:90%"></div>
+        <div style="width:3px;height:55%"></div>
+        <div style="width:1px;height:100%"></div>
+        <div style="width:2px;height:75%"></div>
+        <div style="width:4px;height:100%"></div>
+        <div style="width:1px;height:60%"></div>
+        <div style="width:3px;height:100%"></div>
+        <div style="width:2px;height:85%"></div>
+        <div style="width:1px;height:100%"></div>
+        <div style="width:4px;height:70%"></div>
+        <div style="width:1px;height:100%"></div>
+      </div>
+      <div class="barcode-num">8 90123 45678 9</div>
+      <div class="result-pill"><span class="check">✓</span> Verified Genuine</div>
+    </div>
+    <p class="scan-caption">One scan. One answer.</p>
+  </div>
+</section>
+
+<!-- TICKER -->
+<div class="ticker">
+  <span class="ticker-inner">
+    &nbsp;&nbsp;&nbsp;Scan · Verify · Trust &nbsp;·&nbsp; Scan · Verify · Trust &nbsp;·&nbsp; Scan · Verify · Trust &nbsp;·&nbsp; Scan · Verify · Trust &nbsp;·&nbsp; Scan · Verify · Trust &nbsp;·&nbsp; Scan · Verify · Trust &nbsp;·&nbsp; Scan · Verify · Trust &nbsp;·&nbsp; Scan · Verify · Trust &nbsp;·&nbsp; Scan · Verify · Trust &nbsp;·&nbsp; Scan · Verify · Trust &nbsp;·&nbsp; Scan · Verify · Trust &nbsp;·&nbsp; Scan · Verify · Trust &nbsp;&nbsp;&nbsp;
+  </span>
+</div>
+
+<!-- PROBLEM STATS -->
+<section class="problem">
+  <div class="prob-cell">
+    <div class="prob-num">₹6,000Cr</div>
+    <div class="prob-label">Lost Every Year</div>
+    <p class="prob-desc">Estimated value of counterfeit seeds and fertilizers sold in India annually</p>
+  </div>
+  <div class="prob-cell">
+    <div class="prob-num">0</div>
+    <div class="prob-label">Easy Tools Exist</div>
+    <p class="prob-desc">No simple tool exists for a farmer to verify a product before purchasing</p>
+  </div>
+  <div class="prob-cell">
+    <div class="prob-num">1 Scan</div>
+    <div class="prob-label">That's All It Takes</div>
+    <p class="prob-desc">SachiBij gives farmers a real answer in seconds — no technical knowledge needed</p>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="how" id="how">
+  <div class="how-left">
+    <p class="eyebrow" style="color:var(--straw);margin-bottom:1rem;">How It Works</p>
+    <h2>Three steps.<br/><em>One truth.</em></h2>
+  </div>
+  <div class="how-right">
+    <div class="how-step">
+      <div class="step-num">01</div>
+      <div class="step-body">
+        <h3>Scan the Barcode</h3>
+        <p>Open SachiBij and point your camera at the barcode on any seed or fertilizer packet. No special equipment needed.</p>
+      </div>
+    </div>
+    <div class="how-step">
+      <div class="step-num">02</div>
+      <div class="step-body">
+        <h3>We Check the Database</h3>
+        <p>The barcode is matched instantly against our verified registry of genuine products from licensed manufacturers.</p>
+      </div>
+    </div>
+    <div class="how-step">
+      <div class="step-num">03</div>
+      <div class="step-body">
+        <h3>You Get the Truth</h3>
+        <p>Genuine or fake — clearly, immediately. Before you plant. Before you lose a season.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">
+    Sachi<em>Bij</em>
+    <span class="v1-tag">V1</span>
+  </div>
+  <div class="footer-info">
+    Built by Anya · IIMT College of Engineering, Greater Noida<br/>
+    <span style="opacity:0.5;font-size:0.72rem;">Building in public · 2025</span>
+  </div>
+</footer>
+
+</body>
+</html>

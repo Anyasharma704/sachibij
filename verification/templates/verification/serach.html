@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>SachiBij - Verify Product</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 80px auto;
+            padding: 20px;
+            background: #f9f5f0;
+        }
+        h1 { color: #2d5a27; }
+        input {
+            padding: 10px;
+            width: 70%;
+            font-size: 1rem;
+            border: 2px solid #2d5a27;
+            border-radius: 6px;
+        }
+        button {
+            padding: 10px 20px;
+            background: #2d5a27;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+        .result {
+            margin-top: 30px;
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>🌱 SachiBij</h1>
+    <p>Enter the barcode on your seed/fertilizer packet:</p>
+    <form method="GET" action="/search/">
+        <input type="text" name="barcode" placeholder="e.g. BAR001">
+        <button type="submit">Verify</button>
+    </form>
+
+    {% if result %}
+        <div class="result">{{ result }}</div>
+    {% endif %}
+</body>
+</html>
